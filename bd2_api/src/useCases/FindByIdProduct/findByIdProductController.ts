@@ -10,8 +10,8 @@ export class FindByIdProductController{
 
     async handle (request: Request, reponse: Response) {
         const { id } = request.params
-        const person: Product | null = await this.findByIdProductUseCase.execute(id)
-        return reponse.json(person)
+        const product: Product | null = await this.findByIdProductUseCase.execute(id)
+        return reponse.json(product)
         
     }
 }

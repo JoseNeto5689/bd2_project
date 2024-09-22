@@ -3,6 +3,21 @@ import { Product } from "../../types/Product"
 import { IProductRepository } from "../IProductRepository"
 
 export class ProductRepository implements IProductRepository {
+    async findAllSearch(supplier_id: string, search: string ): Promise<Product[]> {
+        console.log(search)
+        console.log(supplier_id)
+        const result = await ProductModel.find({
+            $and: [
+                {
+                    $text: {$search: search}
+                },
+                {
+                    supplier_id
+                }
+            ]
+        }) as Product[]
+        return result
+    }
 
     async findBySupplierId(supplier_id: string): Promise<Product[]> {
         const result = await ProductModel.find({
@@ -38,14 +53,14 @@ export class ProductRepository implements IProductRepository {
         return productCreated
     }
 
-    async remove(barcode: string): Promise<void> {
+    async remove(_id: string): Promise<void> {
         await ProductModel.deleteOne({
-            barcode
+            _id
         })
     }
 
-    async update(product: Product, barcode: string): Promise<unknown> {
-        const productUpdated = await ProductModel.findOneAndUpdate({barcode}, product)
+    async update(product: Product, _id: string): Promise<unknown> {
+        const productUpdated = await ProductModel.findOneAndUpdate({_id}, product)
 
         return productUpdated
     }

@@ -12,10 +12,11 @@ export class CreateSupplyController {
     async handle (request: Request, response: Response) {
         try {
             CreateSupplyDTO.parse(request.body)
-
+            const id = request.body.userId
             const data:z.infer<typeof CreateSupplyDTO> = request.body
             const result = await this.createSupplyUseCase.execute({
-                ...data
+                ...data,
+                supplier_id: id
             })
             return response.json(result)
         }

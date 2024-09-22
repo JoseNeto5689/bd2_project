@@ -8,7 +8,7 @@ export class FindByIdProductUseCase {
     ) {}
 
     async execute(id: string) {
-        const person = await this.productRepository.findById(id)
-        return person
+        const product = await this.productRepository.findById(id)
+        return product
     }
 }

@@ -3,6 +3,7 @@ import { CreateProductUseCase } from "./createProductUseCase"
 import { CreateProductDTO } from "./createProductDTO"
 import { z } from "zod"
 import { generateMessageArray } from "../../utils/zodError"
+import { redisClient } from "../../database/redis"
 
 export class CreateProductController{
     
@@ -23,12 +24,13 @@ export class CreateProductController{
                 supplier_id: id
             })
 
+            await redisClient.del("products_" + id)
+
             return response.json({
-                barcode: result.barcode,
+                id: result._id,
                 name: result.name,
                 description: result.description,
                 price: result.price,
-                batch: result.batch,
                 manufacturing_date: result.manufacturing_date,
                 expiration_date: result.expiration_date,
                 ammount: result.ammount,

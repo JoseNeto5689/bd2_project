@@ -1,12 +1,11 @@
-import { AddProductComponent } from "@/components/add-product";
 import { Header } from "@/components/header";
-import { ProductSellingPageComponent } from "@/components/product-selling-page";
+import { PurchaseManagementComponent } from "@/components/purchase-management";
 
 export default function Sales() {
   return (
     <>
       <Header defaultTab="add-product"/>
-      <ProductSellingPageComponent/>
+      <PurchaseManagementComponent/>
     </>
   )
 }

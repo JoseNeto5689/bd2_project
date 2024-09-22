@@ -6,18 +6,30 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { MapPin } from "lucide-react"
+import { LeafIcon, MapPin } from "lucide-react"
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { getToken, verifyToken } from '@/utils/token'
 
 interface MapProps {
   location: { lat: number; lng: number }
   setLocation: (location: { lat: number; lng: number }) => void
 }
 
+const markerRef: any = {}
+
+let icon = L.icon({ //add this new icon
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  shadowSize: [41, 41],
+  shadowAnchor: [12, 41]
+});
+
 function Map({ location, setLocation }: MapProps) {
   const mapRef = useRef<L.Map | null>(null)
-  const markerRef = useRef<L.Marker | null>(null)
 
   useEffect(() => {
       if (!mapRef.current) {
@@ -28,19 +40,20 @@ function Map({ location, setLocation }: MapProps) {
         }).addTo(mapRef.current)
 
         markerRef.current = L.marker([location.lat, location.lng], {
-          draggable: true
+          draggable: true,
+          icon
         }).addTo(mapRef.current)
 
         markerRef.current.on('dragend', () => {
           const newPos = markerRef.current?.getLatLng()
           if (newPos) {
-            location = ({ lat: newPos.lat, lng: newPos.lng })
+            position = ({ lat: newPos.lat, lng: newPos.lng })
           }
         })
 
         mapRef.current.on('click', (e: L.LeafletMouseEvent) => {
           markerRef.current?.setLatLng(e.latlng)
-          location = ({ lat: e.latlng.lat, lng: e.latlng.lng })
+          position = ({ lat: e.latlng.lat, lng: e.latlng.lng })
         })
       }
 
@@ -55,18 +68,120 @@ function Map({ location, setLocation }: MapProps) {
   return <div id="map" style={{ height: '100%', width: '100%' }} />
 }
 
+let position: any = null
+
 export function ClientRegistrationComponent() {
+  const token = getToken()
+  const router = useRouter()
+  const searchParams = useSearchParams()
+
+  const action: "add" | "edit" = searchParams.get("id") ? "edit" : "add"
+
+  verifyToken(token as string, router)
+
+  useEffect(() => {
+    if ( action == "edit") {
+      fetch(`http://localhost:3000/person/${searchParams.get("id")}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(res => res.json())
+      .then(data => {
+        setName(data.name)
+        setEmail(data.email)
+        setContact(data.contact)
+        setIdentifierType(data.register.type)
+        setIdentifier(data.register.value)
+        markerRef.current?.setLatLng({ lat: data.address.coordinates[1], lng: data.address.coordinates[0]})
+      })
+    }
+  }, [])
+
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
-  const [contacts, setContacts] = useState('')
+  const [contact, setContact] = useState('')
   const [identifierType, setIdentifierType] = useState('')
   const [identifier, setIdentifier] = useState('')
   const [location, setLocation] = useState({ lat: 51.505, lng: -0.09 }) // Default to London
 
+  function handleDelete(){
+    fetch(`http://localhost:3000/person/${searchParams.get("id")}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      router.push('/users')
+    })
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log({ name, email, contacts, identifierType, identifier, location })
-    // Here you would typically send this data to your backend
+    console.log(name, email, contact, identifierType, identifier, position)
+    if(action == "add") {
+    fetch('http://localhost:3000/person', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+
+      },
+      body: JSON.stringify({
+        name,
+        email,
+        contact,
+        register: {
+          type: identifierType,
+          value: identifier
+        },
+        address: {
+          type: 'Point',
+          coordinates: [position.lng, position.lat]
+        }
+
+      })
+
+    })
+    .then(res => {
+      return res.json()
+    })
+    .then(data => {
+      console.log(data)
+    })
+  }
+    if(action == "edit") {
+      fetch(`http://localhost:3000/person/${searchParams.get("id")}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          contact,
+          register: {
+            type: identifierType,
+            value: identifier
+          },
+          address: {
+            type: 'Point',
+            coordinates: [position.lng, position.lat]
+          }
+        })
+      })
+      .then(res => {
+        return res.json()
+      }
+      )
+      .then(data => {
+        console.log(data)
+      })
+    }
   }
 
   return (
@@ -101,8 +216,8 @@ export function ClientRegistrationComponent() {
               <Label htmlFor="contacts">Contacts</Label>
               <Input 
                 id="contacts" 
-                value={contacts} 
-                onChange={(e) => setContacts(e.target.value)} 
+                value={contact} 
+                onChange={(e) => setContact(e.target.value)} 
                 required 
               />
             </div>
@@ -142,6 +257,7 @@ export function ClientRegistrationComponent() {
           </CardContent>
           <CardFooter>
             <Button type="submit" className="w-full">Register Client</Button>
+            {action == "edit" && <Button onClick={handleDelete} className="w-full ml-5">Delete Client</Button>}
           </CardFooter>
         </form>
       </Card>

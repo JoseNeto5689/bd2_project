@@ -8,13 +8,13 @@ import { Application } from "express"
 import EnsureAuthenticate from "../middlewares/EnsureAuthenticate"
 import { findSupplierProductsController } from "../useCases/FindSupplierProduct"
 import { upload } from "../utils/multer"
-import { findByIdProductImageController } from "../useCases/FindByIdProductImage"
+import { findAllSearchProductsController } from "../useCases/FindAllSearchProduct"
 
 
 const productRoutes = (app: Application) => {
     app.post("/product", EnsureAuthenticate.handleSupplier, (request, response) => createProductController.handle(request, response))
     app.get("/product", (request, response) => findAllProductsController.handle(request, response))
-    app.get("/product-image/:id", (request, response) => findByIdProductImageController.handle(request, response))
+    app.get("/product-search", EnsureAuthenticate.handleSupplier, (request, response) => findAllSearchProductsController.handle(request, response))
     app.get("/own-products", EnsureAuthenticate.handleSupplier, (request, response) => findSupplierProductsController.handle(request, response))
     app.get("/product/:id", (request, response) => findByIdProductController.handle(request, response))
     app.delete("/product/:id", EnsureAuthenticate.handleSupplier, (request, response) => deleteProductController.handle(request, response))

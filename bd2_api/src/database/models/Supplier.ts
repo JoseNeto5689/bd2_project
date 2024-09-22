@@ -13,7 +13,8 @@ const SupplierSchema = new Schema({
 
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
 
     google_id: {
@@ -25,11 +26,11 @@ const SupplierSchema = new Schema({
         type: {
             type: String,
             enum: ["Point"],
-            required: true
+            required: false
         },
         coordinates: {
             type: [Number],
-            required: true
+            required: false
         }
     },
     image: {

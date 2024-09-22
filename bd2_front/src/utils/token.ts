@@ -11,7 +11,11 @@ export function getToken() {
     }
     return [];
   }
-  console.log(getToken())
+
+export function deleteToken() {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("token")
+}}
 
 export function verifyToken(token: string, router: any) {
     fetch("http://localhost:3000/", {

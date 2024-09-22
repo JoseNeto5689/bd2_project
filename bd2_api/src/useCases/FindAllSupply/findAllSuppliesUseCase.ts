@@ -7,8 +7,8 @@ export class FindAllSuppliesUseCase {
         private supplyRepository: ISupplyRepository
     ) {}
 
-    async execute() {
-        const supplies = await this.supplyRepository.findAll()
+    async execute(id: string) {
+        const supplies = await this.supplyRepository.findBySupplierId(id)
         return supplies
     }
 }

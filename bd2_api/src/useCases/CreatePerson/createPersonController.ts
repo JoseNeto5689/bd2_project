@@ -13,7 +13,6 @@ export class CreatePersonController{
     async handle (request: Request, response: Response) {
         try {
             CreatePersonDTO.parse(request.body)
-
             const data:z.infer<typeof CreatePersonDTO> = request.body
 
 
@@ -27,8 +26,8 @@ export class CreatePersonController{
                 name: personCreated.name,
                 email: personCreated.email,
                 address: personCreated.address,
-                type: personCreated.type,
-                contact: personCreated.contact
+                contact: personCreated.contact,
+                register: personCreated.register,
             })
         }
         catch (err:any) {

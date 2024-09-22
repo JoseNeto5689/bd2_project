@@ -20,7 +20,7 @@ export class CreateSupplierController {
                 ...data
             })
 
-            return response.json({
+            return response.status(201).json({
                 id: result.id,
                 name: result.name,
                 geolocalization: result.geolocalization,

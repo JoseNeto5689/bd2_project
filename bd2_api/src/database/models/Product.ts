@@ -2,10 +2,6 @@ import { Schema } from "mongoose"
 import mongoose from "mongoose"
 
 const ProductSchema = new Schema({
-    barcode: {
-        type: String,
-        required: true
-    },
     name: {
         type: String,
         required: true
@@ -24,10 +20,6 @@ const ProductSchema = new Schema({
     },
     price: {
         type: Number,
-        required: true
-    },
-    batch: {
-        type: String,
         required: true
     },
     manufacturing_date: {
@@ -49,6 +41,8 @@ const ProductSchema = new Schema({
 }, {
     timestamps: true
 })
+
+ProductSchema.index({name: "text", description: "text"}, {default_language: "portuguese", weights: {name: 2, description: 1}})
 
 const Product = mongoose.model("Product", ProductSchema)
 

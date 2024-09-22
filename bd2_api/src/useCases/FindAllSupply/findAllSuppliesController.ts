@@ -9,7 +9,8 @@ export class FindAllSuppliesController{
 
     async handle (request: Request, reponse: Response) {
 
-        const supplies = await this.findAllSuppliesUseCase.execute()
+        const id = request.body.userId
+        const supplies = await this.findAllSuppliesUseCase.execute(id)
         return reponse.json(supplies)
 
     }

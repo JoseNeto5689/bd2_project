@@ -1,12 +1,11 @@
 import { ProductRepository } from "../../repositories/implementations/ProductRepository" 
-import { CreateProductController } from "./updateProductController" 
+import { UpdateProductController } from "./updateProductController" 
 import { UpdateProductUseCase } from "./updateProductUseCase" 
-import sequelize from "../../database/index"
 
-const productRepository = new ProductRepository(sequelize)
+const productRepository = new ProductRepository()
 
 const updateProductUseCase = new UpdateProductUseCase(productRepository)
 
-const updateProductController = new CreateProductController(updateProductUseCase)
+const updateProductController = new UpdateProductController(updateProductUseCase)
 
 export { updateProductUseCase, updateProductController }

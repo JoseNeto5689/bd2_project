@@ -1,9 +1,8 @@
 export class Product {
-    public readonly barcode!: string 
+    public readonly _id!: string 
     public name!: string
     public description: string | undefined
     public price!: number
-    public batch: string | undefined
     public manufacturing_date: string | undefined
     public expiration_date: string | undefined
     public image: string | undefined 
@@ -11,11 +10,11 @@ export class Product {
     public type!: string
     public supplier_id!: string
 
-    constructor(props: Omit<Product, "bar_code">, barcode?: string) {
+    constructor(props: Omit<Product, "_id">, _id?: string) {
         Object.assign(this, props)
 
-        if(barcode){
-            this.barcode = barcode
+        if(_id){
+            this._id = _id
         }
     }
 }

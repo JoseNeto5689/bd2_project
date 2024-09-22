@@ -6,6 +6,11 @@ const PersonSchema = new Schema({
         type: String,
         required: true
     },
+    email: {
+        type: String,
+        required: false,
+        unique: true
+    },
     register: {
         type: {
             type: String,
@@ -20,16 +25,16 @@ const PersonSchema = new Schema({
         type: {
             type: String,
             enum: ["Point"],
-            required: false
+            required: true
         },
         coordinates: {
             type: [Number],
-            required: false
+            required: true
         }
     },
     contact: {
-        type: [String],
-        required: false
+        type: String,
+        required: true
     }
 }, {
     timestamps: true
