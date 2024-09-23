@@ -29,7 +29,6 @@ export function AddProductComponent() {
       })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.expiration_date?.split("T")[0])
         setName(data.name)
         setType(data.type)
         setPrice(data.price)
@@ -93,11 +92,8 @@ export function AddProductComponent() {
         })
       })
       .then((res) => {
-        return res.json()
-      })
-      .then((res) => {
-        if (res.status !== 200 || res.status !== 201) {
-          alert("Erro ao adicionar")
+        if (!res.ok) {
+          alert("Erro ao editar")
           return
         }
         router.push("/products")
@@ -132,9 +128,8 @@ export function AddProductComponent() {
       })
     
     })
-    .then(res => res.json())
     .then((res) => {
-      if (res.status !== 200 || res.status !== 201) {
+      if (!res.ok) {
         alert("Erro ao editar")
         return
       }
@@ -153,19 +148,19 @@ export function AddProductComponent() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <Label htmlFor="name">Nome do produto</Label>
-              <Input id="name" name="name" value={name} required onChange={(e) => { setName(e.target.value) }}/>
+              <Input id="name" name="name" value={name} required onChange={(e) => { setName(e.target.value.toString()) }}/>
             </div>
             <div>
               <Label htmlFor="description">Descricao</Label>
-              <Textarea id="description" name="description" value={description} required onChange={(e) => { setDescription(e.target.value) }}/>
+              <Textarea id="description" name="description" value={description} required onChange={(e) => { setDescription(e.target.value.toString()) }}/>
             </div>
             <div>
               <Label htmlFor="manufacturingDate">Data de fabricacao</Label>
-              <Input id="manufacturingDate" name="manufacturingDate" type="date" value={ manufacturingDate } required onChange={(e) => { setManufacturingDate(e.target.value) }}/>
+              <Input id="manufacturingDate" name="manufacturingDate" type="date" value={ manufacturingDate } required onChange={(e) => { setManufacturingDate(e.target.value.toString()) }}/>
             </div>
             <div>
               <Label htmlFor="expirationDate">Data de validade</Label>
-              <Input id="expirationDate" name="expirationDate" type="date" value={expirationDate} onChange={(e) => { setExpirationDate(e.target.value) }}/>
+              <Input id="expirationDate" name="expirationDate" type="date" value={expirationDate} onChange={(e) => { setExpirationDate(e.target.value.toString()) }}/>
             </div>
             <div>
               <Label htmlFor="type">Tipo</Label>

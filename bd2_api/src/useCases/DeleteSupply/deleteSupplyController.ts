@@ -9,6 +9,6 @@ export class DeleteSupplyController {
     async handle(request: Request, response: Response): Promise<Response> {
         const { id } = request.params
         await this.deleteSupplyUseCase.execute(id)
-        return response.json("ok")
+        return response.status(200).json("ok")
     }
 }

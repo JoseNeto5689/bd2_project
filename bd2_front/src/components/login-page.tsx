@@ -27,7 +27,7 @@ export function LoginPageComponent() {
     )})
     const data = await result.json()
     localStorage.setItem("token", data.token)
-    router.push("/home")
+    router.push("/products")
   }
 
   return (

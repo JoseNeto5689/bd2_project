@@ -23,7 +23,7 @@ export class UpdateProductController{
 
             await redisClient.del("products_" + supplier_id)
 
-            return response.json({
+            return response.status(200).json({
                 name: result.name,
                 description: result.description,
                 price: result.price,

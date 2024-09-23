@@ -34,7 +34,6 @@ export function SignUpPageComponent() {
       })
     })
     .then((res) => {
-      console.log(res)
       if(res.status !== 201) {
         alert("Erro ao cadastrar")
         return

@@ -26,7 +26,7 @@ export class CreateProductController{
 
             await redisClient.del("products_" + id)
 
-            return response.json({
+            return response.status(201).json({
                 id: result._id,
                 name: result.name,
                 description: result.description,

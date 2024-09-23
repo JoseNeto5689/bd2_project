@@ -20,7 +20,7 @@ export class CreatePersonController{
                 ...data
             }, id)
 
-            return response.json({
+            return response.status(200).json({
                 id: personCreated.id,
                 name: personCreated.name,
                 email: personCreated.email,

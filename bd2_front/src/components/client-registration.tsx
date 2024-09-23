@@ -104,7 +104,7 @@ export function ClientRegistrationComponent() {
   const [contact, setContact] = useState('')
   const [identifierType, setIdentifierType] = useState('')
   const [identifier, setIdentifier] = useState('')
-  const [location, setLocation] = useState({ lat: 51.505, lng: -0.09 }) // Default to London
+  const [location, setLocation] = useState({ lat: 51.515579783755925, lng: -0.09398460388183595 }) // Default to London
 
   function handleDelete(){
     fetch(`http://localhost:3000/person/${searchParams.get("id")}`, {
@@ -113,9 +113,12 @@ export function ClientRegistrationComponent() {
         'Authorization': `Bearer ${token}`
       }
     })
-    .then(res => res.json())
-    .then(data => {
-      router.push('/users')
+    .then((res) => {
+      if (res.ok) {
+        alert("Erro ao deletar")
+        return
+      }
+      router.push("/users")
     })
   }
 
@@ -146,11 +149,12 @@ export function ClientRegistrationComponent() {
       })
 
     })
-    .then(res => {
-      return res.json()
-    })
-    .then(data => {
-      console.log(data)
+    .then((res) => {
+      if (!res.ok) {
+        alert("Erro ao adicionar")
+        return
+      }
+      router.push("/products")
     })
   }
     if(action == "edit") {
@@ -174,12 +178,12 @@ export function ClientRegistrationComponent() {
           }
         })
       })
-      .then(res => {
-        return res.json()
-      }
-      )
-      .then(data => {
-        console.log(data)
+      .then((res) => {
+        if (!res.ok) {
+          alert("Erro ao editar")
+          return
+        }
+        router.push("/users")
       })
     }
   }
@@ -188,13 +192,13 @@ export function ClientRegistrationComponent() {
     <div className="container mx-auto p-4">
       <Card className="w-full max-w-4xl mx-auto">
         <CardHeader>
-          <CardTitle>Client Registration</CardTitle>
-          <CardDescription>Register a new client in the system</CardDescription>
+          <CardTitle>Registrar cliente</CardTitle>
+          <CardDescription>Registre um novo cliente</CardDescription>
         </CardHeader>
         <form onSubmit={handleSubmit}>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="name">Nome</Label>
               <Input 
                 id="name" 
                 value={name} 
@@ -213,7 +217,7 @@ export function ClientRegistrationComponent() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="contacts">Contacts</Label>
+              <Label htmlFor="contacts">Contatos</Label>
               <Input 
                 id="contacts" 
                 value={contact} 
@@ -222,10 +226,10 @@ export function ClientRegistrationComponent() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="identifierType">Identifier Type</Label>
+              <Label htmlFor="identifierType">Tipos de Identificador</Label>
               <Select onValueChange={setIdentifierType} required>
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select identifier type" />
+                  <SelectValue placeholder="Selecione um tipo de identificador" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="cpf">CPF</SelectItem>
@@ -234,7 +238,7 @@ export function ClientRegistrationComponent() {
               </Select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="identifier">Identifier</Label>
+              <Label htmlFor="identifier">Identificador</Label>
               <Input 
                 id="identifier" 
                 value={identifier} 
@@ -243,7 +247,7 @@ export function ClientRegistrationComponent() {
               />
             </div>
             <div className="space-y-2">
-              <Label>Location</Label>
+              <Label>Localizacao</Label>
               <div className="h-[300px] w-full rounded-md overflow-hidden">
                 <Map location={location} setLocation={setLocation} />
               </div>
@@ -256,8 +260,8 @@ export function ClientRegistrationComponent() {
             </div>
           </CardContent>
           <CardFooter>
-            <Button type="submit" className="w-full">Register Client</Button>
-            {action == "edit" && <Button onClick={handleDelete} className="w-full ml-5">Delete Client</Button>}
+            <Button type="submit" className="w-full">Registrar Cliente</Button>
+            {action == "edit" && <Button onClick={handleDelete} className="w-full ml-5">Deletar Cliente</Button>}
           </CardFooter>
         </form>
       </Card>
