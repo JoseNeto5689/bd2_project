@@ -154,7 +154,7 @@ export function ClientRegistrationComponent() {
         alert("Erro ao adicionar")
         return
       }
-      router.push("/products")
+      router.push("/users")
     })
   }
     if(action == "edit") {
