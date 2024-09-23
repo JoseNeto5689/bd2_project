@@ -47,7 +47,7 @@ export function LoginPageComponent() {
               <Label htmlFor="password">Senha</Label>
               <Input id="password" type="password" required onChange={(e) => {setPassword(e.target.value)}}/>
             </div>
-            <Button type="submit" className="w-full">
+            <Button id="button-login" type="submit" className="w-full">
               <User className="mr-2 h-4 w-4" />
               Login com Email
             </Button>

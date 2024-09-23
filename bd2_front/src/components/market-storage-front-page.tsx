@@ -49,7 +49,7 @@ export function MarketStorageFrontPageComponent() {
         <div className="flex justify-center">
           <Input className="max-w-md mr-2" placeholder="Pesquise aqui novos produtos" onChange={(e) => { setSearchText(e.target.value) }}/>
           <Button onClick={handleSearch}>Pesquisa</Button>
-          <Button className="ml-3" onClick={() => { router.push("/add-product") }}>Novo Item</Button>
+          <Button id="add-item" className="ml-3" onClick={() => { router.push("/add-product") }}>Novo Item</Button>
         </div>
       </header>
       <main>

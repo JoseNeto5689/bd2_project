@@ -67,7 +67,7 @@ export function SignUpPageComponent() {
               <Label htmlFor="confirm-password">Confirme a senha</Label>
               <Input id="confirm-password" type="password" required onChange={(e) => {setConfirmPassword(e.target.value)}}/>
             </div>
-            <Button type="submit" className="w-full">
+            <Button id="button-singUp" type="submit" className="w-full">
               <User className="mr-2 h-4 w-4" />
               Cadastrar-se com email
             </Button>
