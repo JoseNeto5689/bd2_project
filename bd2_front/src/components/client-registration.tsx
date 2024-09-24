@@ -114,7 +114,7 @@ export function ClientRegistrationComponent() {
       }
     })
     .then((res) => {
-      if (res.ok) {
+      if (res.status != 200) {
         alert("Erro ao deletar")
         return
       }
@@ -150,7 +150,7 @@ export function ClientRegistrationComponent() {
 
     })
     .then((res) => {
-      if (!res.ok) {
+      if (res.status != 201) {
         alert("Erro ao adicionar")
         return
       }
@@ -179,7 +179,7 @@ export function ClientRegistrationComponent() {
         })
       })
       .then((res) => {
-        if (!res.ok) {
+        if (res.status != 200) {
           alert("Erro ao editar")
           return
         }

@@ -16,6 +16,15 @@ export function AddProductComponent() {
   const router = useRouter()
   const searchParams = useSearchParams()
 
+  const [file, setFile] = useState<File | undefined | null>(null)
+  const [name, setName] = useState("")
+  const [type, setType] = useState("")
+  const [price, setPrice] = useState(0)
+  const [description, setDescription] = useState("")
+  const [manufacturingDate, setManufacturingDate] = useState<string>()
+  const [expirationDate, setExpirationDate] = useState<string>()
+  const [ammount, setAmount] = useState(0)
+
   const action: "add" | "edit" = searchParams.get("id") ? "edit" : "add"
 
   useEffect(() => { 
@@ -40,16 +49,6 @@ export function AddProductComponent() {
     }
    }, [])
 
-  const [file, setFile] = useState<File | undefined | null>(null)
-  const [name, setName] = useState("")
-  const [type, setType] = useState("")
-  const [price, setPrice] = useState(0)
-  const [description, setDescription] = useState("")
-  const [manufacturingDate, setManufacturingDate] = useState<string>()
-  const [expirationDate, setExpirationDate] = useState<string>()
-  const [ammount, setAmount] = useState(0)
-
-
    function handleDelete(){
     fetch(`http://localhost:3000/product/${searchParams.get("id")}`, {
       method: 'DELETE',
@@ -57,10 +56,15 @@ export function AddProductComponent() {
         'Authorization': `Bearer ${token}`
       }
     })
-    .then(res => res.json())
-    .then(data => {
-      console.log(data)
+    .then(res => {
+      console.log(res)
+      if (res.status != 200) {
+        alert("Erro ao deletar")
+        return
+      }
+      router.push("/products")
     })
+
    }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -92,16 +96,17 @@ export function AddProductComponent() {
         })
       })
       .then((res) => {
-        if (!res.ok) {
-          alert("Erro ao editar")
+        if (res.status != 201) {
+          alert("Erro ao adicionar")
           return
         }
         router.push("/products")
       })
       }
   )
+  return
   }
-  if(action == "edit") {
+  else if(action == "edit") {
     let downloadURL = null
     if(file) {
       const imageRef = ref(storage, `images/${file?.name}`)
@@ -129,12 +134,14 @@ export function AddProductComponent() {
     
     })
     .then((res) => {
-      if (!res.ok) {
-        alert("Erro ao editar")
+      console.log(res)
+      if (res.status != 200) {
+        router.push("#")
         return
       }
       router.push("/products")
     })
+    return
     }
   }
 
@@ -178,7 +185,7 @@ export function AddProductComponent() {
               <Label htmlFor="image">Imagem do produto</Label>
               <Input id="image" name="image" type="file" accept="image/*" onChange={handleImageChange}  required={ action=="add" ? true: false } />
             </div>
-            <Button type="submit">{action == "add" ? "Adicionar Produto" : "Editar Produto"}</Button>
+            <Button id='submitProduct' type="submit">{action == "add" ? "Adicionar Produto" : "Editar Produto"}</Button>
             {action == "edit" && <Button className='m-5' onClick={handleDelete}>Deletar</Button>}
           </form>
         </CardContent>
