@@ -15,13 +15,21 @@ Brief description of the project.
     ```bash
     git clone https://github.com/JoseNeto5689/bd2_project.git
     ```
-2. Navigate to the project directory:
+2. Navigate to the API directory::
     ```bash
     cd bd2_api
     ```
 3. Install the dependencies:
     ```bash
     npm install
+    ```
+4. Navigate to the front directory:
+    ```
+    cd bd2_front
+    ```
+5. Install the dependencies
+    ```
+    nom install
     ```
 
 ## Usage
