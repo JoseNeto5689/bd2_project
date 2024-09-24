@@ -8,14 +8,15 @@ export class DeleteProductController{
         private deleteProductUseCase: DeleteProductUseCase,
     ) {}
 
-    async handle (request: Request, reponse: Response) {
+    async handle (request: Request, response: Response) {
         const { id } = request.params
         const supplier_id = request.body.userId
 
-        await redisClient.del("products_" + id)
-
         await this.deleteProductUseCase.execute(id, supplier_id)
-        return reponse.status(200).json("ok")
+
+        await redisClient.del("products_" + supplier_id)
+        
+        return response.status(200).json("ok")
         
     }
 }
