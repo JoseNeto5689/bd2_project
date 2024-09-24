@@ -34,6 +34,7 @@ Brief description of the project.
 
 ## Usage
 
-To run the project, use the following command:
+To run the project, use the following command, first in the db2_api directory and then in the db2_front directory:
 ```bash
-npm start
+npm run dev
+```
