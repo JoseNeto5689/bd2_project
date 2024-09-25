@@ -42,7 +42,7 @@ const ProductSchema = new Schema({
     timestamps: true
 })
 
-ProductSchema.index({name: "text", description: "text"}, {default_language: "portuguese", weights: {name: 2, description: 1}})
+ProductSchema.index({name: "text", description: "text"}, {default_language: "pt", weights: {name: 2, description: 1}})
 
 const Product = mongoose.model("Product", ProductSchema)
 

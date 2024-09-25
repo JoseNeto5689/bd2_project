@@ -6,8 +6,6 @@ import { findByIdSupplierController } from "../useCases/FindByIdSupplier"
 import { deleteSupplierController } from "../useCases/DeleteSupplier"
 import { updateSupplierController } from "../useCases/UpdateSupplier"
 import EnsureAuthenticate from "../middlewares/EnsureAuthenticate"
-import { saveImageController } from "../useCases/saveSupplierImage"
-import { upload } from "../utils/multer"
 import { findByIdSupplierImageController } from "../useCases/FindByIdSupplierImage"
 
 const supplierRoutes = (app: Application) => {
@@ -17,7 +15,6 @@ const supplierRoutes = (app: Application) => {
     app.get("/supplier-image/:id", (request, response) => findByIdSupplierImageController.handle(request, response))
     app.delete("/supplier", EnsureAuthenticate.handleSupplier, (request, response) => deleteSupplierController.handle(request, response))
     app.put("/supplier", EnsureAuthenticate.handleSupplier, (request, response) => updateSupplierController.handle(request, response))
-    app.patch("/supplier/:id", EnsureAuthenticate.handleSupplier, upload.single("image"), (request, response) => saveImageController.handle(request, response))
 }
 
 export default supplierRoutes

@@ -49,7 +49,9 @@ export function AddProductComponent() {
     }
    }, [])
 
-   function handleDelete(){
+   function handleDelete(e: any){
+    e.preventDefault()
+    console.log(12)
     fetch(`http://localhost:3000/product/${searchParams.get("id")}`, {
       method: 'DELETE',
       headers: {
@@ -71,8 +73,8 @@ export function AddProductComponent() {
     setFile(e.target.files?.[0])
   }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const handleSubmit = async () => {
+    console.log(1)
     if(action == "add") {
       const imageRef = ref(storage, `images/${file?.name}`)
       uploadBytes(imageRef, file as Blob).then(async (snapshot) => {
@@ -152,7 +154,7 @@ export function AddProductComponent() {
           <CardTitle>Add New Product</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form className="space-y-4">
             <div>
               <Label htmlFor="name">Nome do produto</Label>
               <Input id="name" name="name" value={name} required onChange={(e) => { setName(e.target.value.toString()) }}/>
@@ -185,7 +187,7 @@ export function AddProductComponent() {
               <Label htmlFor="image">Imagem do produto</Label>
               <Input id="image" name="image" type="file" accept="image/*" onChange={handleImageChange}  required={ action=="add" ? true: false } />
             </div>
-            <Button id='submitProduct' type="submit">{action == "add" ? "Adicionar Produto" : "Editar Produto"}</Button>
+            <Button id='submitProduct' onClick={(e) => {e.preventDefault(); handleSubmit()}} type="submit">{action == "add" ? "Adicionar Produto" : "Editar Produto"}</Button>
             {action == "edit" && <Button className='m-5' onClick={handleDelete}>Deletar</Button>}
           </form>
         </CardContent>
