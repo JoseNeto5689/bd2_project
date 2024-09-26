@@ -2,9 +2,8 @@ import mongoose from "mongoose"
 
 async function databaseInit(connectionUrl: string) {
 
-    await mongoose.connect(connectionUrl, {
-        authSource: "admin",
-    })
+    console.log(connectionUrl)
+    await mongoose.connect(connectionUrl)
 }
 
 export default databaseInit

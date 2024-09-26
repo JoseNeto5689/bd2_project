@@ -3,8 +3,6 @@ import { UpdateProductUseCase } from "./updateProductUseCase"
 import { UpdateProductDTO } from "./updateProductDTO"
 import { z } from "zod"
 import { generateMessageArray } from "../../utils/zodError"
-import { redisClient } from "../../database/redis"
-
 export class UpdateProductController{
     
     constructor(
@@ -20,8 +18,6 @@ export class UpdateProductController{
             const result = await this.updateProductUseCase.execute({
                 ...data
             }, id, supplier_id)
-
-            await redisClient.del("products_" + supplier_id)
 
             return response.status(200).json({
                 name: result.name,

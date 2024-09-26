@@ -1,6 +1,5 @@
 import { Request, Response } from "express"
 import { DeleteProductUseCase } from "./deleteProductUseCase"
-import { redisClient } from "../../database/redis"
 
 export class DeleteProductController{
     
@@ -13,8 +12,6 @@ export class DeleteProductController{
         const supplier_id = request.body.userId
 
         await this.deleteProductUseCase.execute(id, supplier_id)
-
-        await redisClient.del("products_" + supplier_id)
         
         return response.status(200).json("ok")
         

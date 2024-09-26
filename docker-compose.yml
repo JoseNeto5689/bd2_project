@@ -1,8 +1,0 @@
-services:
-  cache:
-    image: redis:latest
-    container_name: cache
-    ports:
-      - "6379:6379"
-    expose:
-      - "6379"
