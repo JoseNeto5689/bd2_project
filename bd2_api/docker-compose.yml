@@ -7,4 +7,4 @@ services:
     environment:
       - SECRET=moacirehfoda
       - PORT=3000
-      - CONNECTION_URL=mongodb+srv://josesicupiraneto:Zvj38Q3XVleGYPin@cluster0.earia.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      - CONNECTION_URL=Insira aqui a url do mongo DB
