@@ -1,4 +1,5 @@
 import 'cypress-file-upload';
+
 describe('Deve cadastrar um produto', () => {
   it('Tem logar e cadastrar um produto', () => {
     cy.visit('http://localhost:3001/')

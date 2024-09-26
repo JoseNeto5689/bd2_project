@@ -58,3 +58,23 @@ describe('Tentando fazer login passando um password não cadastrado', () => {
     cy.url().should('eq', 'http://localhost:3001/');
   })
 })
+
+describe('Tentando cadastrar um usuário e fazer login com ele', () => {
+  it('Tem que direcionar para a página de login novamente', () => {
+    cy.visit('http://localhost:3001/signup')
+
+    cy.get('#name').type('UsuarioTeste');
+    cy.get('#email').type('usuarioTeste@gmail.com');
+    cy.get('#password').type('123456789');
+    cy.get('#confirm-password').type('123456789');
+    cy.get('#button-singUp').click()
+
+    // cy.visit('http://localhost:3001/')
+    cy.wait(10000);
+    cy.get('#email').type('usuarioTeste@gmail.com')
+    cy.get('#password').type('123456789')
+    cy.get('#button-login').click()
+    cy.wait(10000);
+    cy.url().should('eq', 'http://localhost:3001/products')
+  })
+})
