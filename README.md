@@ -1,4 +1,4 @@
-# Project Title
+# Banco de dados 2
 
 Brief description of the project.
 
@@ -31,9 +31,6 @@ Brief description of the project.
    bun install
    ```
 6. You need create and copy link of mongoDB database url to bd2_api/docker-compose.yml
-   ```
-
-   ```
 7. After that you need to execute docker-compose in bd2_api directory with command:
    ```
    docker compose up --build
