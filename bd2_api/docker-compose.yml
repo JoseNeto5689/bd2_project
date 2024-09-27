@@ -7,4 +7,4 @@ services:
     environment:
       - SECRET=moacirehfoda
       - PORT=3000
-      - CONNECTION_URL=Insira aqui a url do mongo DB
+      - CONNECTION_URL= Insira a url do mongoDB aqui
